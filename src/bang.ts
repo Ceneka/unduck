@@ -2,6 +2,15 @@
 
 export const bangs = [
   {
+    c: "Google web",
+    d: "www.google.com",
+    r: 0,
+    s: "Google Web Tab",
+    sc: "Search",
+    t: "gwt",
+    u: "https://www.google.com/search?udm=14&q={{{s}}}",
+  },
+  {
     c: "AI",
     d: "www.t3.chat",
     r: 0,
