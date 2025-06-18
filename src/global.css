@@ -37,7 +37,7 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
 }
 
@@ -192,5 +192,71 @@ textarea {
 
   .copy-button:active {
     background: #333;
+  }
+}
+
+.bang-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+  width: 80%;
+  max-width: 800px;
+  margin-top: 1rem;
+}
+
+.bang-item {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.bang-item:hover {
+  background: #f0f0f0;
+}
+
+.bang-item.selected {
+  background: #28a745;
+  color: white;
+  border-color: #28a745;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-btn {
+  font-size: 1.5rem;
+  line-height: 1;
+  color: white;
+  opacity: 0.7;
+  padding: 0 0.5rem;
+}
+
+.remove-btn:hover {
+  opacity: 1;
+}
+
+.bang-item input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: center;
+  outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .bang-item {
+    border-color: #3d3d3d;
+  }
+  .bang-item:hover {
+    background: #222;
+  }
+  .bang-item.selected {
+    background: #28a745;
+    border-color: #28a745;
   }
 }

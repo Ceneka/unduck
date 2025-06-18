@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+This project, "unduck", is a high-speed alternative to DuckDuckGo's bang redirects. It's built with Vite and TypeScript.
+
+## Core Functionality
+
+The application's entry point is `src/main.ts`. It parses search queries from the URL (the `q` parameter). If a "bang" command (like `!gh`) is found, it looks up the corresponding redirect URL from the `bangs` data located in `src/bang.ts`. The user is then immediately redirected to the appropriate site with their search query.
+
+If no search query is provided, it displays a default page explaining how to configure the browser's search settings to use unduck.
+
+## How to Use
+
+1.  Set up a custom search engine in your browser using the URL format provided on the app's homepage.
+2.  Use bangs in your search bar (e.g., `!yt cats`) to be redirected to the corresponding site's search results (e.g., YouTube search for "cats").

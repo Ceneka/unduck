@@ -21,6 +21,8 @@ function noSearchDefaultPageRender() {
         </div>
       </div>
       <footer class="footer">
+        <a href="/bang.html">Customize Bangs</a>
+        •
         <a href="https://t3.chat" target="_blank">t3.chat</a>
         •
         <a href="https://x.com/theo" target="_blank">theo</a>
@@ -45,7 +47,6 @@ function noSearchDefaultPageRender() {
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "gwt";
-const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
 
 function getBangredirectUrl() {
   const url = new URL(window.location.href);
@@ -56,9 +57,23 @@ function getBangredirectUrl() {
   }
 
   const match = query.match(/!(\S+)/i);
+  const bangCandidate = match?.[1]?.toLowerCase() ?? LS_DEFAULT_BANG;
 
-  const bangCandidate = match?.[1]?.toLowerCase();
-  const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
+  const selectedBangsMap = new Map<string, any>(
+    JSON.parse(localStorage.getItem("selected-bangs") || "[]"),
+  );
+
+  let selectedBang;
+
+  if (bangCandidate && selectedBangsMap.has(bangCandidate)) {
+    selectedBang = selectedBangsMap.get(bangCandidate);
+  } else {
+    selectedBang = bangs.find((b) => b.t === bangCandidate);
+  }
+
+  if (!selectedBang) {
+    selectedBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
+  }
 
   // Remove the first bang from the query
   const cleanQuery = query.replace(/!\S+\s*/i, "").trim();
