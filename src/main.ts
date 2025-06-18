@@ -12,6 +12,10 @@ onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   if (user) {
     selectedBangsMap = await getBangsFromFirestore();
+    localStorage.setItem(
+      "selected-bangs",
+      JSON.stringify(Array.from(selectedBangsMap.entries())),
+    );
   }
 });
 

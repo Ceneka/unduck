@@ -67,6 +67,10 @@ onAuthStateChanged(auth, (user: User | null) => {
   if (user) {
     unsubscribe = onBangsSnapshot((bangs) => {
       selectedBangs = bangs;
+      localStorage.setItem(
+        "selected-bangs",
+        JSON.stringify(Array.from(bangs.entries())),
+      );
       renderBangs();
     });
   } else {
