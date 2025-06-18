@@ -6,12 +6,18 @@ const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = `
   <div style="display: flex; flex-direction: column; align-items: center; justify-content: start; min-height: 100vh; padding-top: 2rem; gap: 2rem;">
     <h1>Select Your Bangs</h1>
-    <input type="text" id="search-input" placeholder="Search for bangs..." style="width: 80%; max-width: 400px; padding: 0.5rem;" />
+    
+    <div id="custom-bang-form" class="custom-bang-form">
+      <input type="text" id="custom-trigger" placeholder="!trigger" />
+      <input type="text" id="custom-url" placeholder="https://example.com/?q={{{s}}}" />
+      <button id="add-bang-btn">Add</button>
+    </div>
     
     <h2>Selected Bangs</h2>
     <div id="selected-bangs" class="bang-grid"></div>
-
+    
     <h2>All Bangs</h2>
+    <input type="text" id="search-input" placeholder="Search for bangs..." style="width: 80%; max-width: 400px; padding: 0.5rem;" />
     <div id="all-bangs" class="bang-grid"></div>
   </div>
 `;
@@ -117,6 +123,7 @@ function updateBangTrigger(oldTrigger: string, newTrigger: string) {
 
   if (selectedBangs.has(newTrigger)) {
     alert(`Bang !${newTrigger} already exists.`);
+    renderBangs();
     return;
   }
 
@@ -133,8 +140,61 @@ function updateBangTrigger(oldTrigger: string, newTrigger: string) {
   renderBangs();
 }
 
+function addCustomBang() {
+  const triggerInput = document.getElementById("custom-trigger") as HTMLInputElement;
+  const urlInput = document.getElementById("custom-url") as HTMLInputElement;
+  const trigger = triggerInput.value.replace(/^!/, "").trim();
+  const url = urlInput.value.trim();
+
+  if (!trigger || !url) {
+    alert("Both trigger and URL are required.");
+    return;
+  }
+
+  if (!url.includes("{{{s}}}")) {
+    alert("URL must include `{{{s}}}` for the search query.");
+    return;
+  }
+
+  if (selectedBangs.has(trigger)) {
+    alert(`Bang !${trigger} already exists.`);
+    return;
+  }
+  
+  let domain = "";
+  try {
+    const urlObject = new URL(url.replace("{{{s}}}", "test"));
+    domain = urlObject.hostname;
+  } catch (error) {
+    alert("Invalid URL format.");
+    return;
+  }
+
+  const newBang = {
+    t: trigger,
+    d: domain,
+    u: url,
+    c: "custom", // To identify custom bangs
+  };
+
+  selectedBangs.set(trigger, newBang);
+  localStorage.setItem(
+    "selected-bangs",
+    JSON.stringify(Array.from(selectedBangs.entries())),
+  );
+  
+  triggerInput.value = "";
+  urlInput.value = "";
+  renderBangs();
+}
+
 app.addEventListener("click", (e) => {
   const target = e.target as HTMLElement;
+
+  if (target.id === "add-bang-btn") {
+    addCustomBang();
+  }
+
   if (target.classList.contains("bang-item") && !target.classList.contains("selected")) {
     const trigger = target.dataset.trigger;
     if (trigger) {

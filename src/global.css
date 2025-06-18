@@ -248,6 +248,27 @@ textarea {
   outline: none;
 }
 
+.custom-bang-form {
+  display: flex;
+  gap: 0.5rem;
+  width: 80%;
+  max-width: 800px;
+}
+
+.custom-bang-form input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.custom-bang-form button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f0f0f0;
+}
+
 @media (prefers-color-scheme: dark) {
   .bang-item {
     border-color: #3d3d3d;
@@ -258,5 +279,15 @@ textarea {
   .bang-item.selected {
     background: #28a745;
     border-color: #28a745;
+  }
+  .custom-bang-form input {
+    border-color: #3d3d3d;
+    background-color: #191919;
+    color: #fff;
+  }
+  .custom-bang-form button {
+    border-color: #3d3d3d;
+    background-color: #222;
+    color: #fff;
   }
 }
