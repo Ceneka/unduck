@@ -291,3 +291,45 @@ textarea {
     color: #fff;
   }
 }
+
+#app {
+  position: relative;
+}
+
+#auth-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#auth-container span {
+  font-size: 0.9em;
+}
+
+#auth-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background: #28a745;
+  color: white;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#auth-btn:hover {
+  background: #218838;
+}
+
+@media (prefers-color-scheme: dark) {
+  #auth-btn {
+    background: #28a745;
+  }
+
+  #auth-btn:hover {
+    background: #218838;
+  }
+}

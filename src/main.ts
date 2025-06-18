@@ -1,5 +1,19 @@
+import type { User } from "firebase/auth";
+import { auth, getBangsFromFirestore, onAuthStateChanged } from "./auth";
 import { bangs } from "./bang";
 import "./global.css";
+
+let currentUser: User | null = null;
+let selectedBangsMap = new Map<string, any>(
+  JSON.parse(localStorage.getItem("selected-bangs") || "[]"),
+);
+
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  if (user) {
+    selectedBangsMap = await getBangsFromFirestore();
+  }
+});
 
 function noSearchDefaultPageRender() {
   const app = document.querySelector<HTMLDivElement>("#app")!;
@@ -59,9 +73,11 @@ function getBangredirectUrl() {
   const match = query.match(/!(\S+)/i);
   const bangCandidate = match?.[1]?.toLowerCase() ?? LS_DEFAULT_BANG;
 
-  const selectedBangsMap = new Map<string, any>(
-    JSON.parse(localStorage.getItem("selected-bangs") || "[]"),
-  );
+  if (!currentUser) {
+    selectedBangsMap = new Map<string, any>(
+      JSON.parse(localStorage.getItem("selected-bangs") || "[]"),
+    );
+  }
 
   let selectedBang;
 
